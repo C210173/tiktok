@@ -1,7 +1,25 @@
-import TodoApp from "./Todo";
-
+import { useStore, actions } from "./store";
 function App() {
-  return <TodoApp />;
+  const [state, dispatch] = useStore();
+  const { todos, todoInput } = state;
+  const handleAdd = () => {
+    dispatch(actions.addTodo(todoInput));
+  };
+  return (
+    <div>
+      <input
+        value={todoInput}
+        placeholder="enter todo.."
+        onChange={(e) => {
+          dispatch(actions.setTodoInput(e.target.value));
+        }}
+      />
+      <button onClick={handleAdd}>Add</button>
+      {todos.map((todo, index) => (
+        <li key={index}>{todo}</li>
+      ))}
+    </div>
+  );
 }
 
 export default App;
